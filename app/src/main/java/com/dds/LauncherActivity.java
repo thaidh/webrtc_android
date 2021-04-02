@@ -23,6 +23,8 @@ public class LauncherActivity extends BaseActivity implements IUserState {
     private EditText etUser;
     private Button button8;
 
+    String USERNAME = "android_1";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class LauncherActivity extends BaseActivity implements IUserState {
         if (SocketManager.getInstance().getUserState() == 1) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
+        } else {
+            autoLogin();
         }
     }
 
@@ -61,6 +65,15 @@ public class LauncherActivity extends BaseActivity implements IUserState {
         SocketManager.getInstance().connect(Urls.WS, username, 0);
 
 
+    }
+
+    private void autoLogin() {
+        // 设置用户名
+        App.getInstance().setUsername(USERNAME);
+        // 添加登录回调
+        SocketManager.getInstance().addUserStateCallback(this);
+        // 连接socket:登录
+        SocketManager.getInstance().connect(Urls.WS, USERNAME, 0);
     }
 
     @Override

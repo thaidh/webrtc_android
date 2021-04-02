@@ -244,6 +244,10 @@ public class Peer implements SdpObserver, PeerConnection.Observer {
     @Override
     public void onAddTrack(RtpReceiver receiver, MediaStream[] mediaStreams) {
         Log.i(TAG, "onAddTrack:" + mediaStreams.length);
+
+        if (_remoteStream != null && _remoteStream.videoTracks.size() > 0 & sink != null) {
+            _remoteStream.videoTracks.get(0).addSink(sink);
+        }
     }
 
 

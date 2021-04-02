@@ -7,12 +7,13 @@ package com.dds.core.consts;
 public class Urls {
 
     //    private final static String IP = "192.168.2.111";
-    public final static String IP = "42.192.40.58:5000";
+//    public final static String IP = "42.192.40.58:5000";
+    public final static String IP = "0.0.0.0:8443";
 
     private final static String HOST = "http://" + IP + "/";
 
     // 信令地址
-    public final static String WS = "ws://" + IP + "/ws";
+    public final static String WS = "ws://" + IP + "/ws2";
 
     // 获取用户列表
     public static String getUserList() {

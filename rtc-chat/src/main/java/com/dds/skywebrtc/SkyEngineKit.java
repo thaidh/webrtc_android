@@ -80,7 +80,8 @@ public class SkyEngineKit {
         mCurrentCallSession.setIsComing(false);
         mCurrentCallSession.setCallState(EnumType.CallState.Outgoing);
         // 创建房间
-        mCurrentCallSession.createHome(room, 2);
+//        mCurrentCallSession.createHome(room, 2);
+        mCurrentCallSession.makeCall("ACB");
 
 
         return true;
@@ -123,22 +124,23 @@ public class SkyEngineKit {
             // 停止响铃
             mCurrentCallSession.shouldStopRing();
 
-            if (mCurrentCallSession.isComing()) {
-                if (mCurrentCallSession.getState() == EnumType.CallState.Incoming) {
-                    // 接收到邀请，还没同意，发送拒绝
-                    mCurrentCallSession.sendRefuse();
-                } else {
-                    // 已经接通，挂断电话
-                    mCurrentCallSession.leave();
-                }
-            } else {
-                if (mCurrentCallSession.getState() == EnumType.CallState.Outgoing) {
-                    mCurrentCallSession.sendCancel();
-                } else {
-                    // 已经接通，挂断电话
-                    mCurrentCallSession.leave();
-                }
-            }
+//            if (mCurrentCallSession.isComing()) {
+//                if (mCurrentCallSession.getState() == EnumType.CallState.Incoming) {
+//                    // 接收到邀请，还没同意，发送拒绝
+//                    mCurrentCallSession.sendRefuse();
+//                } else {
+//                    // 已经接通，挂断电话
+//                    mCurrentCallSession.leave();
+//                }
+//            } else {
+//                if (mCurrentCallSession.getState() == EnumType.CallState.Outgoing) {
+//                    mCurrentCallSession.sendCancel();
+//                } else {
+//                    // 已经接通，挂断电话
+//                    mCurrentCallSession.leave();
+//                }
+//            }
+            mCurrentCallSession.leave();
             mCurrentCallSession.setCallState(EnumType.CallState.Idle);
         }
 

@@ -61,6 +61,15 @@ public class CallSession implements EngineCallback {
         iEngine.init(this);
     }
 
+    //--------------------------------trueid-------------------------
+    public void makeCall(String groupId) {
+        executor.execute(() -> {
+            if (mEvent != null) {
+                mEvent.makeCall(groupId);
+            }
+        });
+    }
+
 
     // ----------------------------------------各种控制--------------------------------------------
 
@@ -151,7 +160,7 @@ public class CallSession implements EngineCallback {
     public void leave() {
         executor.execute(() -> {
             if (mEvent != null) {
-                mEvent.sendLeave(mRoomId, mMyId);
+                mEvent.sendLeave(mRoomId, mTargetId);
             }
         });
         // 释放变量

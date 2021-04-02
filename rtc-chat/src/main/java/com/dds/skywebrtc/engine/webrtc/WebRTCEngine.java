@@ -143,13 +143,13 @@ public class WebRTCEngine implements IEngine, Peer.IPeerEvent {
     public void userIn(String userId) {
         // create Peer
         Peer peer = new Peer(_factory, iceServers, userId, this);
-        peer.setOffer(true);
+        peer.setOffer(false);
         // add localStream
         peer.addLocalStream(_localStream);
         // 添加列表
         peers.put(userId, peer);
         // createOffer
-        peer.createOffer();
+//        peer.createOffer();
     }
 
     @Override
@@ -472,23 +472,29 @@ public class WebRTCEngine implements IEngine, Peer.IPeerEvent {
 
     private void initIceServer() {
         // 初始化一些stun和turn的地址
-        PeerConnection.IceServer var1 = PeerConnection.IceServer.builder("stun:stun.l.google.com:19302")
-                .createIceServer();
-        iceServers.add(var1);
+//        PeerConnection.IceServer var1 = PeerConnection.IceServer.builder("stun:stun.l.google.com:19302")
+//                .createIceServer();
+//        iceServers.add(var1);
+//
+//        PeerConnection.IceServer var11 = PeerConnection.IceServer.builder("stun:42.192.40.58:3478?transport=udp")
+//                .createIceServer();
+//        PeerConnection.IceServer var12 = PeerConnection.IceServer.builder("turn:42.192.40.58:3478?transport=udp")
+//                .setUsername("ddssingsong")
+//                .setPassword("123456")
+//                .createIceServer();
+//        PeerConnection.IceServer var13 = PeerConnection.IceServer.builder("turn:42.192.40.58:3478?transport=tcp")
+//                .setUsername("ddssingsong")
+//                .setPassword("123456")
+//                .createIceServer();
+//        iceServers.add(var11);
+//        iceServers.add(var12);
+//        iceServers.add(var13);
 
-        PeerConnection.IceServer var11 = PeerConnection.IceServer.builder("stun:42.192.40.58:3478?transport=udp")
+        PeerConnection.IceServer sv1 = PeerConnection.IceServer.builder("turn:18.141.234.211:3478")
+                .setUsername("test")
+                .setPassword("test123")
                 .createIceServer();
-        PeerConnection.IceServer var12 = PeerConnection.IceServer.builder("turn:42.192.40.58:3478?transport=udp")
-                .setUsername("ddssingsong")
-                .setPassword("123456")
-                .createIceServer();
-        PeerConnection.IceServer var13 = PeerConnection.IceServer.builder("turn:42.192.40.58:3478?transport=tcp")
-                .setUsername("ddssingsong")
-                .setPassword("123456")
-                .createIceServer();
-        iceServers.add(var11);
-        iceServers.add(var12);
-        iceServers.add(var13);
+        iceServers.add(sv1);
     }
 
     /**

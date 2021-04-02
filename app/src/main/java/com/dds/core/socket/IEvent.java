@@ -17,7 +17,7 @@ public interface IEvent {
 
     void onCancel(String inviteId);
 
-    void onRing(String userId);
+    void onRing(String userId, String roomId);
 
 
     void onPeers(String myId, String userList, int roomSize);

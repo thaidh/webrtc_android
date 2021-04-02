@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:text="语音" />
+        android:text="Audio" />
 
     <Button
         android:id="@+id/item_call_video"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/item_call_audio"
-        android:text="视频" />
+        android:text="Video" />
 
     <View
         android:layout_width="match_parent"

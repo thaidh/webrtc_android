@@ -11,6 +11,7 @@ import com.dds.core.consts.Urls;
 import com.dds.net.HttpRequestPresenter;
 import com.dds.net.ICallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserListViewModel extends ViewModel {
@@ -25,29 +26,40 @@ public class UserListViewModel extends ViewModel {
         return mList;
     }
 
+    public void loadUsers() {
+        UserBean user1 = new UserBean();
+        user1.setUserId("agent_1");
+        user1.setNickName("nickname_agent_1");
+
+        List<UserBean> userBeans = new ArrayList<>();
+        userBeans.add(user1);
+
+        mList.postValue(userBeans);
+    }
+
 
     // 获取远程用户列表
-    public void loadUsers() {
-        Thread thread = new Thread(() -> {
-            String url = Urls.getUserList();
-            HttpRequestPresenter.getInstance()
-                    .get(url, null, new ICallback() {
-                        @Override
-                        public void onSuccess(String result) {
-                            Log.d("dds_test", result);
-                            List<UserBean> userBeans = JSON.parseArray(result, UserBean.class);
-                            mList.postValue(userBeans);
-                        }
-
-                        @Override
-                        public void onFailure(int code, Throwable t) {
-                            Log.d("dds_test", "code:" + code + ",msg:" + t.toString());
-                        }
-                    });
-        });
-        thread.start();
-
-
-    }
+//    public void loadUsers() {
+//        Thread thread = new Thread(() -> {
+//            String url = Urls.getUserList();
+//            HttpRequestPresenter.getInstance()
+//                    .get(url, null, new ICallback() {
+//                        @Override
+//                        public void onSuccess(String result) {
+//                            Log.d("dds_test", result);
+//                            List<UserBean> userBeans = JSON.parseArray(result, UserBean.class);
+//                            mList.postValue(userBeans);
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int code, Throwable t) {
+//                            Log.d("dds_test", "code:" + code + ",msg:" + t.toString());
+//                        }
+//                    });
+//        });
+//        thread.start();
+//
+//
+//    }
 
 }

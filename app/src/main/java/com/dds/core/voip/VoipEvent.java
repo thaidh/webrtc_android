@@ -24,6 +24,11 @@ public class VoipEvent implements ISkyEvent {
     }
 
     @Override
+    public void makeCall(String groupId) {
+        SocketManager.getInstance().makeCall(groupId);
+    }
+
+    @Override
     public void createRoom(String room, int roomSize) {
         SocketManager.getInstance().createRoom(room, roomSize);
     }
@@ -52,6 +57,7 @@ public class VoipEvent implements ISkyEvent {
     public void sendCancel(String mRoomId, List<String> toIds) {
         SocketManager.getInstance().sendCancel(mRoomId, toIds);
     }
+
 
 
     @Override

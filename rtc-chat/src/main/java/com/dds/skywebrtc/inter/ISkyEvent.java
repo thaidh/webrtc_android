@@ -8,6 +8,8 @@ import java.util.List;
  */
 public interface ISkyEvent {
 
+    void makeCall(String groupId);
+
     // 创建房间
     void createRoom(String room, int roomSize);
 

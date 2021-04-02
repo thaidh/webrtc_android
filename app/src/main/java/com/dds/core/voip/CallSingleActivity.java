@@ -178,6 +178,7 @@ public class CallSingleActivity extends BaseActivity implements CallSession.Call
                 finish();
             } else {
                 session.setSessionCallback(this);
+                didCreateLocalVideoTrack();
             }
         } else {
             CallSession session = gEngineKit.getCurrentSession();

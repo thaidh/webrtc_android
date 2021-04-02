@@ -51,7 +51,8 @@ public class SocketManager implements IEvent {
         if (webSocket == null || !webSocket.isOpen()) {
             URI uri;
             try {
-                String urls = url + "/" + userId + "/" + device;
+//                String urls = url + "/" + userId + "/" + device;
+                String urls = url + "/" + userId;
                 uri = new URI(urls);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
@@ -98,6 +99,7 @@ public class SocketManager implements IEvent {
     public void onOpen() {
         Log.i(TAG, "socket is open!");
 
+        loginSuccess("android_1", "");
     }
 
     @Override
@@ -112,6 +114,18 @@ public class SocketManager implements IEvent {
 
 
     // ======================================================================================
+    public void makeCall(String groupId) {
+        if (webSocket != null) {
+            webSocket.makeCall(groupId, myId);
+        }
+    }
+
+    public void sendReady( String toUid, String roomId) {
+        if (webSocket != null) {
+            webSocket.peerReady(myId, toUid, roomId);
+        }
+    }
+
     public void createRoom(String room, int roomSize) {
         if (webSocket != null) {
             webSocket.createRoom(room, roomSize, myId);
@@ -146,6 +160,12 @@ public class SocketManager implements IEvent {
     public void sendCancel(String mRoomId, List<String> userIds) {
         if (webSocket != null) {
             webSocket.sendCancel(mRoomId, myId, userIds);
+        }
+    }
+
+    public void sendEndCall(String mRoomId, String toUid) {
+        if (webSocket != null) {
+            webSocket.sendEndCall(mRoomId, myId, toUid);
         }
     }
 
@@ -217,11 +237,12 @@ public class SocketManager implements IEvent {
     }
 
     @Override
-    public void onRing(String fromId) {
+    public void onRing(String fromId, String roomId) {
         handler.post(() -> {
             CallSession currentSession = SkyEngineKit.Instance().getCurrentSession();
             if (currentSession != null) {
                 currentSession.onRingBack(fromId);
+                currentSession.setRoom(roomId);
             }
         });
 
@@ -246,6 +267,8 @@ public class SocketManager implements IEvent {
             CallSession currentSession = SkyEngineKit.Instance().getCurrentSession();
             if (currentSession != null) {
                 currentSession.newPeer(userId);
+
+                sendReady(userId, currentSession.getRoomId());
             }
         });
 
