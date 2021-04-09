@@ -224,6 +224,7 @@ public class SocketManager implements IEvent {
         handler.post(() -> {
             CallSession currentSession = SkyEngineKit.Instance().getCurrentSession();
             if (currentSession != null) {
+                currentSession.setTargetId(fromId);
                 currentSession.onRingBack(fromId);
                 currentSession.setRoom(roomId);
             }
