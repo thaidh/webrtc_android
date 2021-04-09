@@ -136,7 +136,6 @@ public class MyWebSocket extends WebSocketClient {
     private void handleAcceptCall(Map map) {
         Map data = (Map) map.get("payload");
         if (data != null) {
-            String userID = (String) data.get("fromUserId");
             this.iEvent.onNewPeer("__SERVER__");
         }
     }
@@ -377,11 +376,15 @@ public class MyWebSocket extends WebSocketClient {
         candidateMap.put("sdpMid", id);
         candidateMap.put("sdpMLineIndex", label);
         candidateMap.put("candidate", candidate);
+        Map<String, Object>  signalMap = new HashMap<>();
+        signalMap.put("candidate", candidateMap);
+
+
 
         Map<String, Object> childMap = new HashMap<>();
         childMap.put("userId", userId);
         childMap.put("fromUserId", myId);
-        childMap.put("candidate", candidateMap);
+        childMap.put("signal", signalMap);
 
         map.put("payload", childMap);
         JSONObject object = new JSONObject(map);
@@ -415,6 +418,27 @@ public class MyWebSocket extends WebSocketClient {
         childMap.put("room", room);
         map.put("data", childMap);
         map.put("eventName", "__disconnect");
+        JSONObject object = new JSONObject(map);
+        final String jsonString = object.toString();
+        Log.d(TAG, "send-->" + jsonString);
+        send(jsonString);
+    }
+
+    public void sendRenegotiate(String myId, String userId) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> childMap = new HashMap<>();
+
+        Map<String, Object>  signalMap = new HashMap<>();
+        signalMap.put("renegotiate", true);
+
+        childMap.put("fromUserId", myId);
+        childMap.put("userId", userId);
+        childMap.put("signal", signalMap);
+
+
+        map.put("payload", childMap);
+        map.put("type", SocketConstants.SOCKET_EVENT_SIGNAL);
+
         JSONObject object = new JSONObject(map);
         final String jsonString = object.toString();
         Log.d(TAG, "send-->" + jsonString);

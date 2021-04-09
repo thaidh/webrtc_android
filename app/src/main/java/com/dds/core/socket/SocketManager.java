@@ -133,6 +133,13 @@ public class SocketManager implements IEvent {
 
     }
 
+    public void sendRenegotiate(String userId) {
+        if (webSocket != null) {
+            webSocket.sendRenegotiate( myId, userId);
+        }
+
+    }
+
     public void sendInvite(String room, List<String> users, boolean audioOnly) {
         if (webSocket != null) {
             webSocket.sendInvite(room, myId, users, audioOnly);
@@ -163,20 +170,10 @@ public class SocketManager implements IEvent {
         }
     }
 
-    public void sendEndCall(String mRoomId, String toUid) {
-        if (webSocket != null) {
-            webSocket.sendEndCall(mRoomId, myId, toUid);
-        }
-    }
-
     public void sendJoin(String room) {
         if (webSocket != null) {
             webSocket.sendJoin(room, myId);
         }
-    }
-
-    public void sendMeetingInvite(String userList) {
-
     }
 
     public void sendOffer(String userId, String sdp) {
@@ -210,20 +207,6 @@ public class SocketManager implements IEvent {
     }
 
 
-    // ========================================================================================
-    @Override
-    public void onInvite(String room, boolean audioOnly, String inviteId, String userList) {
-        Intent intent = new Intent();
-        intent.putExtra("room", room);
-        intent.putExtra("audioOnly", audioOnly);
-        intent.putExtra("inviteId", inviteId);
-        intent.putExtra("userList", userList);
-        intent.setAction(Utils.ACTION_VOIP_RECEIVER);
-        intent.setComponent(new ComponentName(App.getInstance().getPackageName(), VoipReceiver.class.getName()));
-        // 发送广播
-        App.getInstance().sendBroadcast(intent);
-
-    }
 
     @Override
     public void onCancel(String inviteId) {
@@ -246,18 +229,6 @@ public class SocketManager implements IEvent {
             }
         });
 
-
-    }
-
-    @Override  // 加入房间
-    public void onPeers(String myId, String connections, int roomSize) {
-        handler.post(() -> {
-            //自己进入了房间，然后开始发送offer
-            CallSession currentSession = SkyEngineKit.Instance().getCurrentSession();
-            if (currentSession != null) {
-                currentSession.onJoinHome(myId, connections, roomSize);
-            }
-        });
 
     }
 
@@ -320,42 +291,12 @@ public class SocketManager implements IEvent {
     }
 
     @Override
-    public void onLeave(String userId) {
-        handler.post(() -> {
-            CallSession currentSession = SkyEngineKit.Instance().getCurrentSession();
-            if (currentSession != null) {
-                currentSession.onLeave(userId);
-            }
-        });
-    }
-
-    @Override
     public void logout(String str) {
         Log.i(TAG, "logout:" + str);
         userState = 0;
         if (iUserState != null && iUserState.get() != null) {
             iUserState.get().userLogout();
         }
-    }
-
-    @Override
-    public void onTransAudio(String userId) {
-        handler.post(() -> {
-            CallSession currentSession = SkyEngineKit.Instance().getCurrentSession();
-            if (currentSession != null) {
-                currentSession.onTransAudio(userId);
-            }
-        });
-    }
-
-    @Override
-    public void onDisConnect(String userId) {
-        handler.post(() -> {
-            CallSession currentSession = SkyEngineKit.Instance().getCurrentSession();
-            if (currentSession != null) {
-                currentSession.onDisConnect(userId, EnumType.CallEndReason.RemoteSignalError);
-            }
-        });
     }
 
     @Override

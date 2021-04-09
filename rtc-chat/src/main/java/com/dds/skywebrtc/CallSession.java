@@ -535,6 +535,11 @@ public class CallSession implements EngineCallback {
         }
     }
 
+    @Override
+    public void onRenegotiate(String uderId) {
+        mEvent.sendRenegotiate(uderId);
+    }
+
     public interface CallSessionCallback {
         void didCallEndWithReason(EnumType.CallEndReason var1);
 

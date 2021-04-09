@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity implements IUserState {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_user, R.id.navigation_room, R.id.navigation_setting)
+                R.id.navigation_user, R.id.navigation_setting)
                 .build();
         // 設置ActionBar跟随联动
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);

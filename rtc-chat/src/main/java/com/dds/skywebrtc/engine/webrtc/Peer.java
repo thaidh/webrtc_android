@@ -17,6 +17,7 @@ import org.webrtc.RtpReceiver;
 import org.webrtc.SdpObserver;
 import org.webrtc.SessionDescription;
 import org.webrtc.SurfaceViewRenderer;
+import org.webrtc.VideoTrack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +141,7 @@ public class Peer implements SdpObserver, PeerConnection.Observer {
 
             @Override
             public void onFrameResolutionChanged(int videoWidth, int videoHeight, int rotation) {
-                Log.d(TAG, "createRender onFrameResolutionChanged");
+                Log.d(TAG, String.format("createRender onFrameResolutionChanged : %d %d %d", videoWidth, videoHeight, rotation));
             }
         });
         renderer.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FILL);
@@ -149,7 +150,8 @@ public class Peer implements SdpObserver, PeerConnection.Observer {
         sink = new ProxyVideoSink();
         sink.setTarget(renderer);
         if (_remoteStream != null && _remoteStream.videoTracks.size() > 0) {
-            _remoteStream.videoTracks.get(0).addSink(sink);
+            VideoTrack videoTrack = _remoteStream.videoTracks.get(0);
+            videoTrack.addSink(sink);
         }
 
     }
@@ -239,6 +241,9 @@ public class Peer implements SdpObserver, PeerConnection.Observer {
     @Override
     public void onRenegotiationNeeded() {
         Log.i(TAG, "onRenegotiationNeeded:");
+        if (mEvent != null) {
+            mEvent.onRenegotiate(mUserId);
+        }
     }
 
     @Override
@@ -351,6 +356,8 @@ public class Peer implements SdpObserver, PeerConnection.Observer {
         void onRemoteStream(String userId, MediaStream stream);
 
         void onRemoveStream(String userId, MediaStream stream);
+
+        void onRenegotiate(String userId);
 
 
         void onDisconnected(String userId);

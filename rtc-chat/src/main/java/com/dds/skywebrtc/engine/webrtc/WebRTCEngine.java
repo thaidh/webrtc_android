@@ -471,30 +471,23 @@ public class WebRTCEngine implements IEngine, Peer.IPeerEvent {
     // -----------------------------其他方法--------------------------------
 
     private void initIceServer() {
-        // 初始化一些stun和turn的地址
-//        PeerConnection.IceServer var1 = PeerConnection.IceServer.builder("stun:stun.l.google.com:19302")
-//                .createIceServer();
-//        iceServers.add(var1);
-//
-//        PeerConnection.IceServer var11 = PeerConnection.IceServer.builder("stun:42.192.40.58:3478?transport=udp")
-//                .createIceServer();
-//        PeerConnection.IceServer var12 = PeerConnection.IceServer.builder("turn:42.192.40.58:3478?transport=udp")
-//                .setUsername("ddssingsong")
-//                .setPassword("123456")
-//                .createIceServer();
-//        PeerConnection.IceServer var13 = PeerConnection.IceServer.builder("turn:42.192.40.58:3478?transport=tcp")
-//                .setUsername("ddssingsong")
-//                .setPassword("123456")
-//                .createIceServer();
-//        iceServers.add(var11);
-//        iceServers.add(var12);
-//        iceServers.add(var13);
 
-        PeerConnection.IceServer sv1 = PeerConnection.IceServer.builder("turn:18.141.234.211:3478")
-                .setUsername("test")
-                .setPassword("test123")
+//        PeerConnection.IceServer sv1 = PeerConnection.IceServer.builder("turn:18.141.234.211:3478")
+//                .setUsername("test")
+//                .setPassword("test123")
+//                .createIceServer();
+//        iceServers.add(sv1);
+//        PeerConnection.IceServer sv1 = PeerConnection.IceServer.builder("turns:turnserver.trueid.vn:5349")
+//                .setUsername("trueid01")
+//                .setPassword("password01")
+//                .createIceServer();
+//        iceServers.add(sv1);
+
+        PeerConnection.IceServer sv2 = PeerConnection.IceServer.builder("turn:turnserver.trueid.vn:3478")
+                .setUsername("trueid01")
+                .setPassword("password01")
                 .createIceServer();
-        iceServers.add(sv1);
+        iceServers.add(sv2);
     }
 
     /**
@@ -684,6 +677,13 @@ public class WebRTCEngine implements IEngine, Peer.IPeerEvent {
     @Override
     public void onRemoveStream(String userId, MediaStream stream) {
         leaveRoom(userId);
+    }
+
+    @Override
+    public void onRenegotiate(String userId) {
+        if (mCallback != null) {
+            mCallback.onRenegotiate(userId);
+        }
     }
 
     @Override

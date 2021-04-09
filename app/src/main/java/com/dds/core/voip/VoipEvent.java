@@ -29,6 +29,11 @@ public class VoipEvent implements ISkyEvent {
     }
 
     @Override
+    public void sendRenegotiate(String userId) {
+        SocketManager.getInstance().sendRenegotiate(userId);
+    }
+
+    @Override
     public void createRoom(String room, int roomSize) {
         SocketManager.getInstance().createRoom(room, roomSize);
     }

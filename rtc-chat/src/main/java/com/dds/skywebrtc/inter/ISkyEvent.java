@@ -10,6 +10,8 @@ public interface ISkyEvent {
 
     void makeCall(String groupId);
 
+    void sendRenegotiate(String userId);
+
     // 创建房间
     void createRoom(String room, int roomSize);
 

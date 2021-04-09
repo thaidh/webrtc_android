@@ -62,12 +62,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.dds.core.voip.CallMultiActivity"
-            android:screenOrientation="portrait"
-            android:showOnLockScreen="true"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <receiver android:name="com.dds.core.voip.VoipReceiver">
             <intent-filter>
                 <action android:name="${applicationId}.voip.Receiver" />

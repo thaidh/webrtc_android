@@ -40,4 +40,6 @@ public interface EngineCallback {
 
     void onDisconnected(String userId);
 
+    void onRenegotiate(String uderId);
+
 }
