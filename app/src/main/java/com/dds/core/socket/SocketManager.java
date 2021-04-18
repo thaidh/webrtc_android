@@ -294,10 +294,10 @@ public class SocketManager implements IEvent {
     @Override
     public void logout(String str) {
         Log.i(TAG, "logout:" + str);
-        userState = 0;
-        if (iUserState != null && iUserState.get() != null) {
-            iUserState.get().userLogout();
-        }
+//        userState = 0;
+//        if (iUserState != null && iUserState.get() != null) {
+//            iUserState.get().userLogout();
+//        }
     }
 
     @Override

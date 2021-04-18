@@ -41,16 +41,16 @@ public class MyWebSocket extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
         Log.e("dds_error", "onClose:" + reason + "remote:" + remote);
-        if (connectFlag) {
+//        if (connectFlag) {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             this.iEvent.reConnect();
-        } else {
-            this.iEvent.logout("onClose");
-        }
+//        } else {
+//            this.iEvent.logout("onClose");
+//        }
 
     }
 

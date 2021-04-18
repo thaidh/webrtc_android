@@ -23,8 +23,6 @@ public class LauncherActivity extends BaseActivity implements IUserState {
     private EditText etUser;
     private Button button8;
 
-    String USERNAME = "android_1";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +67,12 @@ public class LauncherActivity extends BaseActivity implements IUserState {
 
     private void autoLogin() {
         // 设置用户名
-        App.getInstance().setUsername(USERNAME);
+        String name = Build.MODEL.replace(" ", "");
+        App.getInstance().setUsername(name);
         // 添加登录回调
         SocketManager.getInstance().addUserStateCallback(this);
         // 连接socket:登录
-        SocketManager.getInstance().connect(Urls.WS, USERNAME, 0);
+        SocketManager.getInstance().connect(Urls.WS, name, 0);
     }
 
     @Override
