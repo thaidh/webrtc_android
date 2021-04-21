@@ -413,6 +413,7 @@ public class CallSession implements EngineCallback {
     }
 
     public void setCallState(EnumType.CallState callState) {
+        Log.i("thaidhhhhhhhh", "setCallState: " + callState);
         this._callState = callState;
     }
 

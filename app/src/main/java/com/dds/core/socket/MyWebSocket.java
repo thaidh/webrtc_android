@@ -13,6 +13,7 @@ import com.dds.skywebrtc.EnumType;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONException;
 
 import java.net.URI;
 import java.security.cert.CertificateException;
@@ -102,6 +103,8 @@ public class MyWebSocket extends WebSocketClient {
             } else if (signal.containsKey("candidate")) {
                 handleIceCandidate(payload);
             }
+        } else if (type.equalsIgnoreCase(SocketConstants.SOCKET_EVENT_PUBTRACK)) {
+            handlePubTrack(map);
         }
     }
 
@@ -163,6 +166,23 @@ public class MyWebSocket extends WebSocketClient {
         }
     }
 
+    private void handlePubTrack(Map map) {
+        Map data = (Map) map.get("payload");
+        try {
+            org.json.JSONObject json = new org.json.JSONObject(data);
+            org.json.JSONObject jsonTrackId = json.getJSONObject("trackId");
+            String pubClientId = (String) json.get("pubClientId");
+            if (jsonTrackId != null) {
+                SocketEvent.TrackId trackId = new SocketEvent.TrackId(jsonTrackId);
+                SocketEvent.SubTrackData subTrackData = new SocketEvent.SubTrackData(SocketEvent.TRACK_EVENT_TYPE_SUB, trackId, pubClientId);
+                emitMessage(SocketConstants.SOCKET_EVENT_SUBTRACK, subTrackData.toJson());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     /**
      * ------------------------------trueid----------------------------------------
      */
@@ -215,22 +235,6 @@ public class MyWebSocket extends WebSocketClient {
         childMap.put("userList", join);
 
         map.put("data", childMap);
-        JSONObject object = new JSONObject(map);
-        final String jsonString = object.toString();
-        Log.d(TAG, "send-->" + jsonString);
-        send(jsonString);
-    }
-
-    public void sendEndCall(String mRoomId, String useId, String toUserId) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("type", "end");
-
-        Map<String, Object> childMap = new HashMap<>();
-        childMap.put("fromUserId", useId);
-        childMap.put("toUserId", toUserId);
-        childMap.put("room", mRoomId);
-
-        map.put("payload", childMap);
         JSONObject object = new JSONObject(map);
         final String jsonString = object.toString();
         Log.d(TAG, "send-->" + jsonString);

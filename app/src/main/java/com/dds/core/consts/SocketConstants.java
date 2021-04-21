@@ -14,6 +14,9 @@ public class SocketConstants {
     public static final String SOCKET_EVENT_REJECT = "reject";
     public static final String SOCKET_EVENT_BUSY = "busy";
     public static final String SOCKET_EVENT_ENDCALL = "end";
+    public static final String SOCKET_EVENT_PUBTRACK = "pubTrack";
+    public static final String SOCKET_EVENT_SUBTRACK = "subTrack";
+
 }
 
 

@@ -1,11 +1,13 @@
 package com.dds.core.model;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SocketEvent {
     ReadyData readyData;
     MakeCallData makeCallData;
     CallingInfo callingInfo;
+    SubTrackData subTrackData;
 
     public void setReadyData(final ReadyData readyData) {
         this.readyData = readyData;
@@ -13,6 +15,10 @@ public class SocketEvent {
 
     public void setMakeCallData(final MakeCallData makeCallData) {
         this.makeCallData = makeCallData;
+    }
+
+    public void setSubTrackData(final SubTrackData subTrackData) {
+        this.subTrackData = subTrackData;
     }
 
     public void setCallingInfo(final CallingInfo callingInfo) {
@@ -23,15 +29,15 @@ public class SocketEvent {
         JSONObject jsonObject = new JSONObject();
         try {
             if (readyData != null) {
-                jsonObject.put("room", readyData.room);
-                jsonObject.put("userId", readyData.userId);
+                jsonObject.put("roomId", readyData.room);
+                jsonObject.put("fromUserId", readyData.userId);
                 jsonObject.put("nickname", readyData.nickName);
                 jsonObject.put("toUserId", readyData.toUserId);
             }
 
             if (makeCallData != null) {
                 jsonObject.put("fromUserId", makeCallData.fromId);
-                jsonObject.put("groupId", makeCallData.toGroupId);
+                jsonObject.put("clientId", makeCallData.toGroupId);
             }
 
             if (callingInfo != null) {
@@ -68,5 +74,62 @@ public class SocketEvent {
             this.toGroupId = groupId;
         }
     }
+
+    public static int TRACK_EVENT_TYPE_ADD = 1;
+    public static int TRACK_EVENT_TYPE_REMOVE = 2;
+    public static int TRACK_EVENT_TYPE_SUB = 3;
+    public static int TRACK_EVENT_TYPE_UNSUB = 4;
+
+
+
+    public static class TrackId {
+        String id;
+        String streamId;
+
+        public TrackId(JSONObject json) {
+            try {
+                id = json.getString("id");
+                streamId = json.getString("streamId");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public JSONObject toJson() {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("id", id);
+                jsonObject.put("streamId", streamId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return jsonObject;
+        }
+    }
+
+    public static class SubTrackData {
+        int type;
+        TrackId trackId;
+        String pubCientId;
+
+        public SubTrackData(final int type, final TrackId trackId, final String pubCientId) {
+            this.type = type;
+            this.trackId = trackId;
+            this.pubCientId = pubCientId;
+        }
+
+        public JSONObject toJson() {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("trackId", trackId.toJson());
+                jsonObject.put("type", type);
+                jsonObject.put("pubClientId", pubCientId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return jsonObject;
+        }    }
 
 }

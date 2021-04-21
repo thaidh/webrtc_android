@@ -337,5 +337,11 @@ public class CallSingleActivity extends BaseActivity implements CallSession.Call
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        CallSession session = gEngineKit.getCurrentSession();
+        Log.i("thaidhhhhhhhh", "onDestroy: " );
+        if (session != null && session.getState() != EnumType.CallState.Idle) {
+            Log.i("thaidhhhhhhhh", "onDestroy: endcall  " +  session.getState());
+            SkyEngineKit.Instance().endCall();
+        }
     }
 }
