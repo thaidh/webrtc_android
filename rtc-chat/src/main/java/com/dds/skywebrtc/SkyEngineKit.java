@@ -76,8 +76,8 @@ public class SkyEngineKit {
         mCurrentCallSession.setIsComing(false);
         mCurrentCallSession.setCallState(EnumType.CallState.Outgoing);
         // 创建房间
-//        mCurrentCallSession.createHome(room, 2);
         mCurrentCallSession.makeCall("ACB");
+//        mCurrentCallSession.makeCall("client_id_3");
 
 
         return true;

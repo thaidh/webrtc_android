@@ -2,6 +2,7 @@ package com.dds.core.socket;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -98,8 +99,8 @@ public class SocketManager implements IEvent {
     @Override
     public void onOpen() {
         Log.i(TAG, "socket is open!");
-
-        loginSuccess("android_1", "");
+        String name = Build.MODEL.replace(" ", "");
+        loginSuccess(name, "");
     }
 
     @Override
